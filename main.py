@@ -1,7 +1,12 @@
 import os
 import getpass
+import tkinter as tk
+from tkinter import filedialog, messagebox
 from imps import SpeFiles
 from imps import DatFiles
+
+root = tk.Tk()
+root.withdraw()
 
 try:
     print('Создание папки на Рабочем Столе')
@@ -11,16 +16,16 @@ except FileExistsError:
 except OSError:
     pass
 
-null_less_than_zero_ask = input('Обнулить отрицательные значения интенсивности? [y/n]: ')
+null_less_than_zero_ask = messagebox.askyesno('Обнуление', 'Обнулить отрицательные значения интенсивности?')
 
 while True:
-    input_directory = input('Введите путь к папке с .spe или .DAT (C:/fizz/buzz): ')  # C:/pyroot/Kerber Importer/test
-    input_filename = input_directory.split('/')[-1]
-    if null_less_than_zero_ask == 'y' or null_less_than_zero_ask == 'н':
+    if null_less_than_zero_ask:
         null_check = True
     else:
         null_check = False
 
+    input_directory = filedialog.askdirectory(initialdir='/', title='Выберите папку с логами')  # C:/pyroot/Kerber Importer/test
+    input_filename = input_directory.split('/')[-1]
 
     class Filenames:
         """This class is for sorting files in a directory to pick only .spe and .DAT files"""
